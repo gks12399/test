@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="css/test0714_account.css">
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+    <!-- vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+
+
+<body class="dimmed">
+    <div id="app">
+        <div class="popup">
+
+            <!-- title -->
+            <div class="title">Login<span style="font-size:15px"> ( ID: test01 / PW: 1234 )</span></div>
+
+            <!-- id -->
+            <div class="box" style="padding-top: 10px;">
+                <label for="userName">I D</label>
+                <input id="userName" type="text" name="userName" placeholder="아이디 입력" v-model="in_id">
+            </div>
+
+            <!-- password -->
+            <div class="box">
+                <label for="password">PW</label>
+                <input id="password" type="password" name="password" placeholder="비밀번호 입력" v-model="in_pw">
+            </div>
+
+            <!-- login button -->
+            <button id="chkbutton" @click="fnLoginChk()">Login</button>
+            <div id="loginMsg">
+                <span v-if="id == '' && pw == ''">
+                    <p>아이디와 비밀번호를 입력해주세요!</p>
+                </span>
+
+                <!-- Success => froflie -->
+                <span v-else-if="id == 'test01' && pw == '1234'">
+                    <P>로그인성공!</P>
+                    <div class="cmd">
+                        <a href="test0714_main.html">
+                            <input id="chkbutton" type="button" name="btnclose" class="button" value="이동">
+                        </a>
+                    </div>
+                </span>
+
+                <!-- id: false / pw: true -->
+                <span v-else-if="id != 'test01' && pw == '1234'">
+                    <p>아이디가 틀렸습니다!</p>
+                </span>
+
+                <!-- id: true / pw: false -->
+                <span v-else-if="id == 'test01' && pw != '1234'">
+                    <p>비밀번호가 틀렸습니다!</p>
+                </span>
+
+                <!-- id: false / pw: false -->
+                <span v-else-if="id != 'test01' && pw != '1234'">
+                    <p>로그인실패!</p>
+                </span>
+                <span v-else>
+                    <p>test</p>
+                </span>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+
+            // v-model input vlaue
+            in_id: '',
+            in_pw: '',
+
+            // compare vlaue
+            id: '',
+            pw: '',
+
+        },
+
+        methods: {
+
+            fnLoginChk: function () {
+                this.id = this.in_id;
+                this.pw = this.in_pw;
+            },
+
+        },
+        created: function () {
+            // this.fnTest();
+        }
+    });
+</script>

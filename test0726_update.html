@@ -1,0 +1,203 @@
+<html>
+
+<head>
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <script src="js/jquery.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Jua', sans-serif;
+            background-color: snow;
+        }
+
+        #app {
+            background-color: snow;
+            margin: auto;
+        }
+
+        #top {
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .table-list {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        td,
+        th {
+            border: 1px solid pink;
+            border-radius: 5px;
+            font-size: 15px;
+            text-align: center;
+            padding: 8px;
+        }
+
+        .btn {
+            background-color: pink;
+            border-radius: 5px;
+            border: 0;
+            padding: 2px 10px;
+        }
+
+        input {
+            border-radius: 5px;
+            border: 1px solid pink;
+            height: 20px;
+        }
+
+        #top input:focus {
+            border-radius: 5px;
+            border: 1px solid pink;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <div id="top">
+
+
+            <div style="margin-top: 10px; margin-left: 5px;">
+                <!-- <button class="btn" @click="fnRemove()">삭제</button>
+                <button class="btn" @click="istValue()" v-if="!istFlag">추가</button>
+                <button class="btn" @click="saveValue()" v-if="istFlag">저장</button>
+                <button class="btn" @click="istFlag = !istFlag" v-if="istFlag">취소</button> -->
+            </div>
+        </div>
+        <br>
+        <div class="table-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>♥</th>
+                        <th scope="col">No.</th>
+                        <th scope="col">학번</th>
+                        <th scope="col">이름</th>
+                        <th scope="col">과목</th>
+                        <th scope="col">점수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(item, index) in list">
+                        <td><input type="radio" value="chk" name="chk" v-model="istFlag"></td>
+                        <td><label v-bind:for="'idx_' + index">{{index + 1}}</label></td>
+                        <td><label v-bind:for="'idx_' + index">{{item.stu_no}}</label></td>
+                        <td><label v-bind:for="'idx_' + index">{{item.stu_name}}</label></td>
+                        <td><label v-bind:for="'idx_' + index">{{item.sub_name}}</label></td>
+                        <td><label v-bind:for="'idx_' + index">{{item.enr_grade}}</label></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- <template v-if="istFlag">
+                <input placeholder="학번" style="width: 100px;" v-model="stuNo">
+                <input placeholder="이름" style="width: 80px;" v-model="stuName">
+                <input placeholder="과목이름" style="width: 150px;" v-model="subName">
+                <input placeholder="점수" style="width: 50px;" v-model="stuGrade">
+            </template> -->
+
+        </div>
+
+
+    </div>
+</body>
+
+</html>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+
+            //insert Value
+            istFlag: false,
+            stuNo: '',
+            stuName: '',
+            subName: '',
+            stuGrade: 0,
+
+            list: [] // 전체 데이터 리스트
+            , selectedItemList: []
+            , subnameList: [
+                { key: "컴퓨터개론", value: "컴퓨터개론" }
+                , { key: "시스템분석설계", value: "시스템분석설계" }
+                , { key: "소프트웨어공학", value: "소프트웨어공학" }
+                , { key: "기계요소설계", value: "기계요소설계" }
+                , { key: "기계공작법", value: "기계공작법" }
+            ] // 셀렉트 박스
+        }
+        , methods: {
+
+            //delete
+            fnRemove: function () {
+                console.log(this.selectedItemList.index);
+                var self = this;
+                // if (this.selectedItemList.index != '') {
+                    this.list.splice(this.selectedItemList.index, 1);
+                    self.fnIndex();
+                // } else {
+                //     alert("삭제할 데이터를 선택하세요!");
+                // }
+            },
+
+            istValue: function () {
+                var self = this;
+                self.istFlag = !self.istFlag;
+                self.stuNo = "";
+                self.stuName = "";
+                self.subName = "";
+                self.stuGrade = "";
+            },
+
+            saveValue: function () {
+                var self = this;
+                self.list[self.list.length] = {
+                    stu_no: self.stuNo,
+                    stu_name: self.stuName,
+                    sub_name: self.subName,
+                    enr_grade: self.stuGrade
+                };
+
+                self.istFlag = false;
+                self.fnIndex();
+            },
+
+            fnIndex: function () {
+                var self = this;
+                for (var i = 0; i < self.list.length; i++) {
+                    self.list[i].index = i;
+                }
+            },
+
+            fnTest: function () {
+                var self = this;
+                $.ajax({
+                    url: "js/test.json",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.results == "success") {
+                            self.list = data.items;
+                            console.log(self.list);
+                        } else {
+                            alert("데이터 호출 실패");
+                        }
+                    }
+                });
+            }
+        },
+
+        created: function () {
+            this.fnTest();
+        }
+    });
+
+</script>
