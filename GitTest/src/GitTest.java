@@ -6,13 +6,12 @@ public class GitTest {
 		System.out.println("Hello JAVA!");
 		
 		System.out.println("------------------------------");
-		System.out.println("±¸±¸´Ü");
+		System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 		
 		for(int i = 2; i < 10; i++) {
-			System.out.printf("---%d ´Ü--- \n", i);
+			System.out.printf("---%d ï¿½ï¿½--- \n", i);
 			for(int j = 1; j < 10; j++) {
 				System.out.printf("%d X %d = %d \n", i, j, i*j);
-				¤» ·ç»æ»Í
 			}
 		}
 	}
